@@ -2,6 +2,19 @@ require File.dirname(__FILE__) + '/spec_helper'
 require_relative '../lib/bag_of_words/dictionary'
 require_relative '../lib/spam_filter/detector'
 
+
+def build_vocabulary_to(detector)
+	detector.spam!("offer is secret")
+	detector.spam!("click secret link")
+	detector.spam!("secret sports link")
+
+	detector.ham!("play sports today")
+	detector.ham!("went play sports")
+	detector.ham!("secret sports event")
+	detector.ham!("sports is today")
+	detector.ham!("sports cost money")
+end
+
 describe "simple-spam-filter" do
 
 	context " about the classification" do
@@ -31,21 +44,23 @@ describe "simple-spam-filter" do
 		let(:spam_filter) { SpamFilter::Detector.new }
 
 		it "should be possible to know whats the size of vacabulary" do 
-			spam_filter.spam!("offer is secret")
-			spam_filter.spam!("click secret link")
-			spam_filter.spam!("secret sports link")
-
-			spam_filter.ham!("play sports today")
-			spam_filter.ham!("went play sports")
-			spam_filter.ham!("secret sports event")
-			spam_filter.ham!("sports is today")
-			spam_filter.ham!("sports cost money")
-
+			build_vocabulary_to spam_filter
 			spam_filter.vocabulary_size.should be 12
 		end
 
-		it "should be possible to know the probability of an word is spam" do 
-			
+		it "should be possible to know the probability of an word be spam" do 
+			build_vocabulary_to spam_filter
+			spam_filter.spam_probability.should == 0.375			
+		end
+
+		it "should be possible to know the probablity of an word be ham " do 
+			build_vocabulary_to spam_filter
+			spam_filter.ham_probability.should == 0.625
+		end
+
+		it "should be possible to know the probability of 'secret' word be spam" do 
+			build_vocabulary_to spam_filter
+			spam_filter.spam_probability_of('secret').should be_within(0.02).of(0.333)
 		end
 	
 	end 

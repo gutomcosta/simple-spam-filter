@@ -14,6 +14,14 @@ module BagOfWords
 			@ngram.size_of(:unigram)
 		end
 
+		def words
+			@ngram.words		
+		end
+
+		def frequency(word)
+			@ngram.frequency(:unigram, word)
+		end
+
 
 	end
 end

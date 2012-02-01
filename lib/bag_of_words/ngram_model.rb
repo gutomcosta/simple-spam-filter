@@ -15,6 +15,11 @@ module BagOfWords
 			@unigram.size
 		end
 
+		def words
+			@original_text.downcase.scan(/[a-z]+/)
+		end
+
+
 		private
 		def transform
 			unigram = Hash.new(0) 
@@ -25,10 +30,5 @@ module BagOfWords
 			end
 			unigram
 		end
-
-		def words
-			@original_text.downcase.scan(/[a-z]+/)
-		end
-
 	end
 end
