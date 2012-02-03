@@ -30,19 +30,26 @@ module	SpamFilter
 		end
 
 		def spam_probability_of(word)
-			dictionary = spam_dictionary
-			frequency = dictionary.frequency(word)
-			frequency.to_f / dictionary.words.count 			
+			probrability_of word, dictionary_of(@spams)
+		end
+
+		def ham_probability_of(word)
+			probrability_of word, dictionary_of(@hams)
 		end
 
 		private	
+
+		def probrability_of(word, dictionary)
+			frequency = dictionary.frequency(word)
+			frequency.to_f / dictionary.words.count 			
+		end
 
 		def complete_dictionary
 			BagOfWords::Dictionary.build sentence
 		end
 
-		def spam_dictionary
-			BagOfWords::Dictionary.build to_sentence(@spams)
+		def dictionary_of(data)
+			BagOfWords::Dictionary.build to_sentence(data)
 		end
 			
 

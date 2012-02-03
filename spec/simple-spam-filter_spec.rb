@@ -62,6 +62,24 @@ describe "simple-spam-filter" do
 			build_vocabulary_to spam_filter
 			spam_filter.spam_probability_of('secret').should be_within(0.02).of(0.333)
 		end
+
+		it "should be possible to know the probability of 'secret' word be ham" do 
+			build_vocabulary_to spam_filter
+			spam_filter.ham_probability_of('secret').should be_within(0.02).of(0.066)
+		end
+
+		# it "should be possible to know the probability of P(spam|'secret is secret')" do
+		# 	build_vocabulary_to spam_filter
+		# 	message = "Secret is Secret"
+
+		# 	Probabilities.calculate :probability => :spam, 	 :given => message
+		# 	Probabilities.calculate :probability => message, :given => :spam
+		# 	Probabilities.calculate :probability => message, :not => :spam
+
+		# end
+
+
+
 	
 	end 
 
