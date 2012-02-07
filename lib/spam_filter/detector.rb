@@ -39,6 +39,8 @@ module	SpamFilter
 
 		private	
 
+		#TODO - refactor to use ProbabilityModel
+
 		def probrability_of(word, dictionary)
 			frequency = dictionary.frequency(word)
 			frequency.to_f / dictionary.words.count 			
