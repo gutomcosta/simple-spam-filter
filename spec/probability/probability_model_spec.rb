@@ -1,4 +1,4 @@
-require_relative '../../lib/probability/probability_model'
+require_relative '../../lib/probability/simple_probability'
 
 def sample_space_for_a_dice
 	# it's possible values when we rolling a dice
@@ -7,19 +7,18 @@ end
 
 def sample_space_for_weather
 	["sunny", "sunny", "rain", "cloudy", "cloudy","snow","rain", "sunny"]
-	
 end
 
 module Probability
-	describe "Probability Model" do 
+	describe "Simple Probability" do 
 
 		it "should allow to define possible worlds " do
-			probability_model = ProbabilityModel.new sample_space_for_a_dice
+			probability_model = SimpleProbability.new sample_space_for_a_dice
 			probability_model.possible_worlds.should_not be_nil
 		end
 
 		context "about the 'Uncondicional or Prior' probability for a dice with [1,2,3,4,5,6] possibilities" do 
-			let(:probability_model) { ProbabilityModel.new sample_space_for_a_dice }
+			let(:probability_model) { SimpleProbability.new sample_space_for_a_dice }
 		
 			it "should 0,166 to the probability P(1)" do
 				probability_model.prior("1").should be_within(0.02).of(0.166)
@@ -31,7 +30,7 @@ module Probability
 		end
 
 		context 'about the "Uncondicional or Prior" probabilty for a weather possibilities ["sunny", "sunny", "rain", "cloudy", "cloudy","snow","rain", "sunny"]' do
-			let(:probability_model) { ProbabilityModel.new sample_space_for_weather }
+			let(:probability_model) { SimpleProbability.new sample_space_for_weather }
 			
 			it "should be 0.37 to the probabilty P(sunny)" do
 				probability_model.prior("sunny").should be_within(0.02).of(0.37)
@@ -43,7 +42,7 @@ module Probability
 		end
 
 		context 'about the complementary events, it is P(not Event) = 1 - P(event)' do 
-			let(:probability_model) { ProbabilityModel.new sample_space_for_weather }
+			let(:probability_model) { SimpleProbability.new sample_space_for_weather }
 
 			it "should be 0.62 to the probability P(not sunny)" do 
 				probability_model.complementary("sunny").should be_within(0.02).of(0.62)

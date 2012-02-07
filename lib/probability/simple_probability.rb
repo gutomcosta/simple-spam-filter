@@ -1,5 +1,5 @@
 module Probability
-	class ProbabilityModel
+	class SimpleProbability
 		attr_reader :possible_worlds
 
 		def initialize(possible_worlds)
