@@ -1,3 +1,10 @@
 == simple-spam-filter
 
 A Very simple spam filter implementation, using the techniques learned in Stanford Ai Course 2011. 
+
+== Instructions
+
+git clone
+bundle install
+autotest
+go to the code!
