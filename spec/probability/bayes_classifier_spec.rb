@@ -1,0 +1,42 @@
+require_relative '../../lib/probability/bayes_classifier'
+
+
+def train_the_bayes(bayes_classifier)
+	bayes_classifier.train :spam, "offer is secret"
+	bayes_classifier.train :spam, "click secret link"
+	bayes_classifier.train :spam, "secret sports link"
+	
+	bayes_classifier.train :ham, "play sports today"
+	bayes_classifier.train :ham, "went play sports"
+	bayes_classifier.train :ham, "secret sports event"
+	bayes_classifier.train :ham, "sports is today"
+	bayes_classifier.train :ham, "sports cost money"
+end
+
+module Probability
+	describe "Bayes Classifier" do 
+		let(:bayes_classifier) {BayesClassifier.new}
+
+		context "about training data" do 
+			it "should be possible to train the classifier" do 
+				bayes_classifier.train :spam, 'offer is secret'
+				bayes_classifier.train :spam, 'click secret link'
+			end
+
+			it "should be possible to get the data by classification" do 
+				bayes_classifier.train :spam, 'offer is secret'
+				bayes_classifier.train :ham, 'play sports today'
+				
+				bayes_classifier.examples_of(:spam).should include("offer is secret")
+				bayes_classifier.examples_of(:ham).should include("play sports today")
+			end
+
+		end
+		
+		it "should classify a sentence in spam or ham" do 
+			train_the_bayes(bayes_classifier)			
+			bayes_classifier.classify('the secret of universe').should be :spam
+		end
+	end
+
+end
