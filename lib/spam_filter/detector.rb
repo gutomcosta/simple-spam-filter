@@ -1,4 +1,5 @@
 require_relative '../bag_of_words/dictionary'
+require_relative '../probability/simple_probability'
 
 module	SpamFilter
 	class Detector 
@@ -39,11 +40,9 @@ module	SpamFilter
 
 		private	
 
-		#TODO - refactor to use ProbabilityModel
-
 		def probrability_of(word, dictionary)
-			frequency = dictionary.frequency(word)
-			frequency.to_f / dictionary.words.count 			
+			simple_probability = Probability::SimpleProbability.new(dictionary.words)
+			simple_probability.prior(word)
 		end
 
 		def complete_dictionary
