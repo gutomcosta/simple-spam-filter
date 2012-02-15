@@ -32,7 +32,14 @@ module Probability
 			end
 
 		end
-		
+
+		context "about the conditional probability" do 
+			it "should be 0.333 for 'secret' word be spam" do 
+				train_the_bayes(bayes_classifier)
+				bayes_classifier.conditional("secret",:spam).should be_within(0.02).of(0.333)
+			end
+		end
+
 		it "should classify a sentence in spam or ham" do 
 			train_the_bayes(bayes_classifier)			
 			bayes_classifier.classify('the secret of universe').should be :spam

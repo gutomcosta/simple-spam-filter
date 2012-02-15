@@ -9,6 +9,10 @@ def sample_space_for_weather
 	["sunny", "sunny", "rain", "cloudy", "cloudy","snow","rain", "sunny"]
 end
 
+def sample_space_for_spam
+	["offer", "is", "secret", "click", "secret", "link", "secret", "sports", "link"]
+end
+
 module Probability
 	describe "Simple Probability" do 
 
@@ -53,7 +57,6 @@ module Probability
 					probability_model.complementary("invalid event")
 				}.to raise_error
 			end
-
 		end
 	end
 end
