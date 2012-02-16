@@ -38,12 +38,18 @@ module Probability
 				train_the_bayes(bayes_classifier)
 				bayes_classifier.conditional("secret",:spam).should be_within(0.02).of(0.333)
 			end
-		end
+		end 
 
-		it "should classify a sentence in spam or ham" do 
+		it "should classify a sentence  'the secret of universe' as spam" do 
 			train_the_bayes(bayes_classifier)			
 			bayes_classifier.classify('the secret of universe').should be :spam
 		end
+
+		it "should classify the sentence 'sports is today' as ham" do 
+			train_the_bayes(bayes_classifier)
+			bayes_classifier.classify('sports is today').should be :ham
+		end
+
 	end
 
 end

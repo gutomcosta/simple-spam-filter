@@ -20,34 +20,52 @@ module Probability
 
 
 		def classify(message)
-			probabilities = {}
-			@examples.keys.each do |classification|
-				probabilities[classification] = conditional_for(message, classification)
-			end
-			classificate(probabilities)
+			classificate the_probabilities_for(message)
+		end
+
+		def probability(message, classification)
+			probabilities = the_probabilities_for(message)
+			probabilities[classification]
 		end
 
 		def conditional(feature, classification)
-			dictionary = BagOfWords::Dictionary.build to_sentence(examples_of(classification))
-			simple_probability = Probability::SimpleProbability.new dictionary.words
+			dictionary 				 	= BagOfWords::Dictionary.build to_sentence(examples_of(classification))
+			simple_probability 	= Probability::SimpleProbability.new dictionary.words
 			simple_probability.prior(feature)
 		end
 
 		private
 
+		def the_probabilities_for(message)
+			probabilities = {}
+			@examples.keys.each do |classification|
+				probabilities[classification] = conditional_for(message, classification)
+			end
+			probabilities
+		end
+
 		def classificate(probabilities)
-			probabilities.max.first
+			max = probabilities.max { |a,b| a.last <=> b.last } 
+			max.first
 		end
 
 		def conditional_for(message, classification)
-			dictionary 								= BagOfWords::Dictionary.build message
-			simple_probability 				= Probability::SimpleProbability.new dictionary.words
-			conditional_probabilities = dictionary.words.map { |word| conditional(word,classification)  }
-			simple_probability.prior(classification) * conditional_probabilities.reduce {|x,y| x * y}
+			message_dictionary 				= BagOfWords::Dictionary.build message
+			conditional_probabilities = message_dictionary.words.map { |word| conditional(word,classification)  }
+			prior(classification) * conditional_probabilities.reduce {|x,y| x * y}
+		end
+
+		def all_classification
+			values = @examples.map {|key,value| value}
+			values.flatten
 		end
 
 		def to_sentence(array)
 			array.join(' ')
+		end
+
+		def prior(classification)
+			examples_of(classification).size.to_f / all_classification.size.to_f
 		end
 
 
